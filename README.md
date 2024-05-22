@@ -1,5 +1,4 @@
 # TransportSystem
-Project Title
 Dynamic Web Application for Kenyan Agricultural Transport Efficiency.
 Agriculture is an important sector in the Kenyan economy. The sector is the backbone of the economy and contributes approximately 33% of Kenya’s Gross Domestic Product (GDP). The agriculture sector employs more than 40 percent of the total population and 70 percent of the rural population. More importantly, Kenya is renowned for its exports of tea, coffee, and flowers.  It also produces a wide array of other crops for domestic consumption and export. This sector therefore plays a significant role in providing opportunities for smallholder farmers to improve their livelihoods.
 Problem Statement 
