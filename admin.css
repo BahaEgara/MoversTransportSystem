@@ -206,3 +206,35 @@ aside .sidebar a span.msg_count {
   font-size: 11px;
   border-radius: var(--border-radius-1);
 }
+
+/* Links container style */
+.links-container {
+  margin: 1rem 0;
+  padding: 1rem;
+  border: 1px solid var(--clr-info-light);
+  border-radius: var(--border-radius-1);
+  box-shadow: var(--box-shadow);
+  background-color: var(--clr-white);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Initially hidden */
+.hidden {
+  display: none;
+}
+
+/* Link styles */
+.links-container a {
+  color: var(--clr-info-dark);
+  text-decoration: none;
+  padding: 0.5rem;
+  border-radius: var(--border-radius-1);
+  transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.links-container a:hover {
+  color: var(--clr-primary);
+  background-color: var(--clr-light);
+}
