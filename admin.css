@@ -238,3 +238,32 @@ aside .sidebar a span.msg_count {
   color: var(--clr-primary);
   background-color: var(--clr-light);
 }
+/* Add styles for tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+}
+
+table, th, td {
+  border: 1px solid var(--clr-info-light);
+}
+
+th, td {
+  padding: 0.5rem;
+  text-align: left;
+}
+
+th {
+  background-color: var(--clr-primary);
+  color: var(--clr-white);
+}
+
+td {
+  background-color: var(--clr-white);
+  color: var(--clr-dark);
+}
+
+.links-container table {
+  margin-bottom: 2rem;
+}
