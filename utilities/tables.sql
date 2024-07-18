@@ -1,0 +1,161 @@
+CREATE TABLE administrator (
+    administratorId INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    isActive BOOLEAN DEFAULT TRUE,
+    emailAddress VARCHAR(100) NOT NULL UNIQUE,
+    phoneNumber VARCHAR(15) NOT NULL,
+    dateCreated DATETIME DEFAULT CURRENT_TIMESTAMP,
+    lastUpdated DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE retailer (
+    retailerId INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    isActive BOOLEAN DEFAULT TRUE,
+    emailAddress VARCHAR(100) NOT NULL UNIQUE,
+    phoneNumber VARCHAR(15) NOT NULL,
+    locationAddress VARCHAR(255),
+    dateCreated DATETIME DEFAULT CURRENT_TIMESTAMP,
+    lastUpdated DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE farmer (
+    farmerId INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    isActive BOOLEAN DEFAULT TRUE,
+    emailAddress VARCHAR(100) NOT NULL UNIQUE,
+    phoneNumber VARCHAR(15) NOT NULL,
+    natureOfProduce VARCHAR(255),
+    locationAddress VARCHAR(255),
+    dateCreated DATETIME DEFAULT CURRENT_TIMESTAMP,
+    lastUpdated DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE driver (
+    driverId INT AUTO_INCREMENT PRIMARY KEY,
+    firstName VARCHAR(50) NOT NULL,
+    lastName VARCHAR(50) NOT NULL,
+    gender VARCHAR(10) NOT NULL DEFAULT 'Female',
+    nationalIdNumber INT NOT NULL UNIQUE,
+    phoneNumber VARCHAR(15) NOT NULL UNIQUE,
+    emailAddress VARCHAR(100) NOT NULL UNIQUE,
+    licenseId VARCHAR(20) NOT NULL UNIQUE,
+    isActive BOOLEAN DEFAULT FALSE,
+    dateCreated DATETIME DEFAULT CURRENT_TIMESTAMP,
+    lastUpdated DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE loader (
+    loaderId INT AUTO_INCREMENT PRIMARY KEY,
+    firstName VARCHAR(50) NOT NULL,
+    lastName VARCHAR(50) NOT NULL,
+    gender VARCHAR(10) NOT NULL DEFAULT 'Female',
+    nationalIdNumber INT NOT NULL UNIQUE,
+    phoneNumber VARCHAR(15) NOT NULL UNIQUE,
+    emailAddress VARCHAR(100) NOT NULL UNIQUE,
+    isActive BOOLEAN DEFAULT FALSE,
+    dateCreated DATETIME DEFAULT CURRENT_TIMESTAMP,
+    lastUpdated DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE vehicle (
+    vehicleId INT AUTO_INCREMENT PRIMARY KEY,
+    registrationPlate VARCHAR(20) NOT NULL UNIQUE,
+    vehicleMakeId INT,
+    dateCreated DATETIME DEFAULT CURRENT_TIMESTAMP,
+    lastUpdated DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (vehicleMakeId) REFERENCES vehicleMake(vehicleMakeId)
+);
+
+CREATE TABLE vehicleMake (
+    vehicleMakeId INT AUTO_INCREMENT PRIMARY KEY,
+    makeType VARCHAR(50),
+    loadCapacity DECIMAL(10, 2),
+    costPerKm DECIMAL(10, 2),
+    numberOfLoaders INT,
+    loaderPayment DECIMAL(10, 2),
+    driverPayment DECIMAL(10, 2),
+    dateCreated DATETIME DEFAULT CURRENT_TIMESTAMP,
+    lastUpdated DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE service (
+    serviceId INT AUTO_INCREMENT PRIMARY KEY,
+    vehicleId INT,
+    cost DECIMAL(10, 2),
+    serviceDate DATETIME,
+    dateCreated DATETIME DEFAULT CURRENT_TIMESTAMP,
+    lastUpdated DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (vehicleId) REFERENCES vehicle(vehicleId)
+);
+
+CREATE TABLE goods (
+    goodId INT AUTO_INCREMENT PRIMARY KEY,
+    goodDescription VARCHAR(255)
+);
+
+CREATE TABLE order (
+    orderId INT AUTO_INCREMENT PRIMARY KEY,
+    retailerId INT,
+    farmerId INT,
+    orderDate DATE,
+    retailName VARCHAR(100),
+    locationAddress VARCHAR(255),
+    retailTelephone VARCHAR(15),
+    dateCreated DATETIME DEFAULT CURRENT_TIMESTAMP,
+    lastUpdated DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (retailerId) REFERENCES retailer(retailerId),
+    FOREIGN KEY (farmerId) REFERENCES farmer(farmerId)
+);
+
+CREATE TABLE orderGood (
+    orderGoodId INT AUTO_INCREMENT PRIMARY KEY,
+    orderId INT,
+    goodId INT,
+    quantity DECIMAL(10, 2),
+    dateCreated DATETIME DEFAULT CURRENT_TIMESTAMP,
+    lastUpdated DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (orderId) REFERENCES `order`(orderId),
+    FOREIGN KEY (goodId) REFERENCES goods(goodId)
+);
+
+CREATE TABLE trip (
+    tripId INT AUTO_INCREMENT PRIMARY KEY,
+    driverId INT,
+    vehicleId INT,
+    orderId INT,
+    tripDate DATETIME,
+    distance DECIMAL(10, 2),
+    dateCreated DATETIME DEFAULT CURRENT_TIMESTAMP,
+    lastUpdated DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (driverId) REFERENCES driver(driverId),
+    FOREIGN KEY (vehicleId) REFERENCES vehicle(vehicleId),
+    FOREIGN KEY (orderId) REFERENCES `order`(orderId)
+);
+
+CREATE TABLE loaderAssignment (
+    assignmentId INT AUTO_INCREMENT PRIMARY KEY,
+    loaderId INT,
+    tripId INT,
+    assignmentDate DATETIME,
+    dateCreated DATETIME DEFAULT CURRENT_TIMESTAMP,
+    lastUpdated DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (loaderId) REFERENCES loader(loaderId),
+    FOREIGN KEY (tripId) REFERENCES trip(tripId)
+);
+
+CREATE TABLE offence (
+    offenceId INT AUTO_INCREMENT PRIMARY KEY,
+    offenceDescription TEXT
+);
+
+CREATE TABLE offender (
+    offenderId INT AUTO_INCREMENT PRIMARY KEY,
+    driverId INT,
+    offenceId INT,
+    offenceDate DATE,
+    dateCreated DATETIME DEFAULT CURRENT_TIMESTAMP,
+    lastUpdated DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (driverId) REFERENCES driver(driverId),
+    FOREIGN KEY (offenceId) REFERENCES offence(offenceId)
+);
